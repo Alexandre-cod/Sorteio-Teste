@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Sorteio Automático</title>
+<style>
+  body { font-family: Arial, sans-serif; text-align: center; padding: 50px; background: #f0f0f0; }
+  #countdown { font-size: 48px; margin-bottom: 20px; }
+  #winner { font-size: 36px; color: green; margin-top: 30px; }
+  #animation { font-size: 40px; color: #333; margin-top: 20px; height: 60px; }
+</style>
+</head>
+<body>
+<h1>Sorteio ao Vivo</h1>
+<div id="countdown">Carregando...</div>
+<div id="animation"></div>
+<div id="winner"></div>
+
+<script>
+  const nomes = ["João", "Maria", "Pedro", "Ana"];
+
+  // Definindo a data do sorteio: agora + 15 minutos
+  const sorteioData = new Date(new Date().getTime() + 15*60000);
+  let sorteioFeito = false;
+
+  function atualizarContagem() {
+    const agora = new Date();
+    const diff = sorteioData - agora;
+
+    if (diff > 0) {
+      const minutos = Math.floor(diff / 1000 / 60);
+      const segundos = Math.floor((diff / 1000) % 60);
+      document.getElementById("countdown").textContent = `Sorteio em: ${minutos}m ${segundos}s`;
+    } else if (!sorteioFeito) {
+      iniciarSorteio();
+      sorteioFeito = true;
+    }
+  }
+
+  function iniciarSorteio() {
+    document.getElementById("countdown").textContent = "Sorteando...";
+    let indice = 0;
+    const anim = document.getElementById("animation");
+    const winnerDiv = document.getElementById("winner");
+
+    const intervalo = setInterval(() =>
